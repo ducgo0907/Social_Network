@@ -1,0 +1,132 @@
+/* Header */
+.header-tab{
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+}
+
+#logo{
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+}
+
+.text-tab{
+    color: white;
+    font-size: 20px;
+    margin-left: 10px;
+
+}
+
+.text-tab:hover{
+    color: white;
+    background-color: gray;
+}
+
+.righ-tab-header{
+    float: right;
+}
+
+/* main page */
+.page-content{
+    margin-top: 40px;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+}
+
+/* posts */
+#post-button{
+    float: right;
+    margin-right: 10px;
+    margin-top: 10px;
+}
+
+.post{
+    height: auto;
+    background-color: white;
+    margin: 0px 0px 20px 0px;
+}
+
+.profile-post{
+    height: 70px;
+    background-color: white;
+}
+
+.name-user{
+    text-align: left;
+}
+
+.horizontal-line{
+    border-bottom: 1px solid black;
+}
+
+.avatar{
+    width: 50px !important;
+    height: 50px;
+    background-color: orange;
+    border-radius: 50%;
+    margin: 0px 0px 0px 30px;
+}
+
+.comments{
+    height: auto;
+    background-color: white;
+}
+
+.reaction{
+    height: 30px;
+}
+
+.like-btn, comment-btn{
+    height: 30px;
+    cursor: pointer;
+}
+
+.like-btn:hover, .comment-btn:hover{
+    background-color: #edf0f5;
+    height: 30px;
+}
+/* Profile */
+.profile-page{
+    margin-top: 40px;
+}
+
+.edit-user-information{
+    margin-top: 60px;
+}
+
+.nofication{
+    margin-top: 60px;
+}
+
+h1{
+    text-align: center;
+}
+
+/* Bar */
+.bar{
+    margin-top: 60px;
+}
+
+.tab-bar-left{
+    height: 40px;
+    background-color: white;
+}
+
+.tab-bar-left:hover{
+    background-color: gray;
+    border-radius: 3px;
+}
+
+
+/* Footer  */
+.footer{
+    text-align: center;
+    font-size: 20px;
+}
+
+body{
+    background-color: #e2e1e1 !important;
+}
