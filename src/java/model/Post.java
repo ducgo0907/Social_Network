@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author ngoqu
@@ -14,6 +16,7 @@ public class Post {
     private int userId;
     private User user;
     private String dateCreated;
+    private List<Comment> comments;
 
     public Post() {
     }
@@ -50,6 +53,16 @@ public class Post {
         this.user = user;
         this.dateCreated = dateCreated;
     }
+
+    public Post(int postId, String content, int userId, User user, String dateCreated, List<Comment> comments) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.user = user;
+        this.dateCreated = dateCreated;
+        this.comments = comments;
+    }
+    
 
     public String getContent() {
         return content;
@@ -89,6 +102,14 @@ public class Post {
 
     public void setPostId(int postId) {
         this.postId = postId;
+    }
+
+    public List<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(List<Comment> comments) {
+        this.comments = comments;
     }
     
     

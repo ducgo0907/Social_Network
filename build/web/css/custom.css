@@ -46,7 +46,7 @@
 .post{
     height: auto;
     background-color: white;
-    margin: 0px 0px 20px 0px;
+    margin: 0px 0px 50px 0px;
 }
 
 .profile-post{
@@ -70,11 +70,45 @@
     margin: 0px 0px 0px 30px;
 }
 
+.avatar-comment{
+    width: 30px !important;
+    height: 30px;
+    background-color: orange;
+    border-radius: 50%;
+    margin: 30px 0px 0px 30px;
+}
+
 .comments{
     height: auto;
     background-color: white;
 }
 
+.comment-input{
+    height: 40px;
+}
+
+.comments-name{
+    text-align: left;
+    margin: 10px 0px 10px 10px;
+    color: white;
+}
+
+.comments-content{
+    text-align: left;
+    margin-left: 10px;
+}
+
+.comment-details{
+    height: auto;
+    margin-bottom: 0px;
+}
+
+.comment-background{
+    background-color: #aba8a8;
+    width: 90%;
+    margin: 30px 0px 0px 30px;
+    border-radius: 2%;
+}
 .reaction{
     height: 30px;
 }
@@ -129,4 +163,8 @@ h1{
 
 body{
     background-color: #e2e1e1 !important;
+}
+
+.space{
+    height: 40px;
 }

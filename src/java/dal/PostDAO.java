@@ -23,14 +23,18 @@ public class PostDAO extends DBContext {
         String sql = "Select * from posts ORDER BY dateCreated DESC";
         List<Post> list = new ArrayList<>();
         UserDAO ud = new UserDAO();
+        CommentDAO cd = new CommentDAO();
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Post post = new Post(rs.getInt("postId"), rs.getString("content"),
+                Post post = new Post(
+                        rs.getInt("postId"),
+                        rs.getString("content"),
                         rs.getInt("userId"),
                         ud.getUserById(rs.getInt("userId")),
-                        rs.getString("dateCreated"));
+                        rs.getString("dateCreated"),
+                        cd.getAllCommentByPostId(rs.getInt("postID")));
                 list.add(post);
             }
         } catch (SQLException e) {
@@ -47,7 +51,6 @@ public class PostDAO extends DBContext {
      */
     public Post getPostById(int id) {
         String sql = "Select * from posts where postId = ? ";
-
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
@@ -93,6 +96,8 @@ public class PostDAO extends DBContext {
      */
     public void destroyPostById(int id) {
         String sql = "Delete from Posts where postId = ?";
+        CommentDAO cd = new CommentDAO();
+        cd.destroyCommentByPostId(id);
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
@@ -104,9 +109,10 @@ public class PostDAO extends DBContext {
 
     public static void main(String[] args) {
         PostDAO c = new PostDAO();
-        List<Post> list = c.getAllPosts();
-        Post post = c.getPostById(12);
-        System.out.println(post.getContent());
-        System.out.println(list.get(1).getPostId());
+//        List<Post> list = c.getAllPosts();
+//        Post post = c.getPostById(12);
+//        System.out.println(post.getContent());
+//        System.out.println(list.get(1).getPostId());
+        c.destroyPostById(11);
     }
 }
