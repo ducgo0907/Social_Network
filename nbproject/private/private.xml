@@ -3,7 +3,18 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/D:/FPT/PRJ/Social%20Network/web/list_group.jsp</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/dal/DBContext.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/web/home.jsp</file>
             <file>file:/D:/FPT/PRJ/Social%20Network/web/WEB-INF/web.xml</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/model/Post.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/model/Group.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/web/layouts/bar-right.jsp</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/controller/group/JoinGroup.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/web/show_group.jsp</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/dal/GroupDAO.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/src/java/controller/group/ShowGroup.java</file>
+            <file>file:/D:/FPT/PRJ/Social%20Network/web/css/custom.css</file>
         </group>
     </open-files>
 </project-private>

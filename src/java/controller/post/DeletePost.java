@@ -62,21 +62,6 @@ public class DeletePost extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        HttpSession session = request.getSession();
-        String id_post_raw = request.getParameter("post_id");
-        User user = (User) session.getAttribute("account");
-        PostDAO pd = new PostDAO();
-        try {
-            Integer id_post = Integer.parseInt(id_post_raw);
-            Post post = pd.getPostById(id_post);
-            if (user.getUserId() == post.getUserId()) {
-                pd.destroyPostById(id_post);
-                List<Post> list = pd.getAllPosts();
-                request.setAttribute("listPost", list);
-            }
-        } catch (NumberFormatException e) {
-            System.out.println(e);
-        }
         request.getRequestDispatcher("home").forward(request, response);
     }
 
@@ -91,7 +76,21 @@ public class DeletePost extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+
+        HttpSession session = request.getSession();
+        String id_post_raw = request.getParameter("post_id");
+        User user = (User) session.getAttribute("account");
+        PostDAO pd = new PostDAO();
+        try {
+            Integer id_post = Integer.parseInt(id_post_raw);
+            Post post = pd.getPostById(id_post);
+            if (user.getUserId() == post.getUserId()) {
+                pd.destroyPostById(id_post);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(e);
+        }
+        response.sendRedirect("home");
     }
 
     /**

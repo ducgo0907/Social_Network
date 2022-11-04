@@ -11,12 +11,17 @@ import java.util.List;
  * @author ngoqu
  */
 public class Post {
+
     private int postId;
     private String content;
     private int userId;
     private User user;
     private String dateCreated;
     private List<Comment> comments;
+    private int likeAmout;
+    private String imagePath;
+    private List<User> userLike;
+    private String Status;
 
     public Post() {
     }
@@ -24,6 +29,27 @@ public class Post {
     public Post(String content, int userId) {
         this.content = content;
         this.userId = userId;
+    }
+
+    public Post(String content, int userId, String image_path) {
+        this.content = content;
+        this.userId = userId;
+        this.imagePath = image_path;
+    }
+
+    public Post(String content, int userId, String imagePath, String Status) {
+        this.content = content;
+        this.userId = userId;
+        this.imagePath = imagePath;
+        this.Status = Status;
+    }
+
+    public Post(String content, int userId, String dateCreated, String imagePath, String Status) {
+        this.content = content;
+        this.userId = userId;
+        this.dateCreated = dateCreated;
+        this.imagePath = imagePath;
+        this.Status = Status;
     }
 
     public Post(String content, int userId, User user) {
@@ -62,7 +88,39 @@ public class Post {
         this.dateCreated = dateCreated;
         this.comments = comments;
     }
-    
+
+    public Post(int postId, String content, int userId, User user, String dateCreated, List<Comment> comments, int likeAmout) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.user = user;
+        this.dateCreated = dateCreated;
+        this.comments = comments;
+        this.likeAmout = likeAmout;
+    }
+
+    public Post(int postId, String content, int userId, User user, String dateCreated, List<Comment> comments, int likeAmout, String image_path) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.user = user;
+        this.dateCreated = dateCreated;
+        this.comments = comments;
+        this.likeAmout = likeAmout;
+        this.imagePath = image_path;
+    }
+
+    public Post(int postId, String content, int userId, User user, String dateCreated, List<Comment> comments, int likeAmout, String imagePath, List<User> userLike) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.user = user;
+        this.dateCreated = dateCreated;
+        this.comments = comments;
+        this.likeAmout = likeAmout;
+        this.imagePath = imagePath;
+        this.userLike = userLike;
+    }
 
     public String getContent() {
         return content;
@@ -111,6 +169,37 @@ public class Post {
     public void setComments(List<Comment> comments) {
         this.comments = comments;
     }
-    
-    
+
+    public int getLikeAmout() {
+        return likeAmout;
+    }
+
+    public void setLikeAmout(int likeAmout) {
+        this.likeAmout = likeAmout;
+    }
+
+    public String getImagePath() {
+        return imagePath;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public List<User> getUserLike() {
+        return userLike;
+    }
+
+    public void setUserLike(List<User> userLike) {
+        this.userLike = userLike;
+    }
+
+    public String getStatus() {
+        return Status;
+    }
+
+    public void setStatus(String Status) {
+        this.Status = Status;
+    }
+
 }

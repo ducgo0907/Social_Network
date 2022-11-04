@@ -6,18 +6,84 @@
     display: flex;
 }
 
+#group-header{
+    height: auto;
+    background-color: white;
+}
+
+.space-header{
+    margin-top: 70px;
+}
+
 #logo{
     color: white;
     font-size: 20px;
     text-decoration: none;
+    float: left;
+    margin: 0px 40px 0px 0px;
+}
+
+#input-search{
+    height: 32px;
+    color: black;
+    border-radius: 5%;
+}
+
+#chat-box{
+    height: 75vh;
+    /*max-height: auto;*/
+    overflow-y: auto;
+    background-color: white;
+}
+
+#chat-box-header{
+    height: auto;
+    background-color: white;
+    border-bottom: black solid 1px;
+    padding: 5px 0px 5px 0px;
+}
+
+.receive-message{
+    text-align: left;
+}
+
+.send-message{
+    text-align: right;
+}
+
+.send-message, .receive-message{
+    margin-bottom: 9px;
+}
+
+.receive-text, .send-text{
+    padding: 5px 5px 5px 5px;
+    border-radius: 10%;
+}
+
+.receive-text{
+    background-color: #83bbf4;
+    color: white;
+}
+
+.send-text{
+    background-color: gray;
+    color: white;
+}
+
+#input-wrap{
+    margin: 10px 0px 0px -16px;
+}
+
+.messages{
+    overflow-y: auto;
 }
 
 .text-tab{
     color: white;
     font-size: 20px;
     margin-left: 10px;
-
 }
+
 
 .text-tab:hover{
     color: white;
@@ -28,12 +94,31 @@
     float: right;
 }
 
+.mid-tab-header{
+    float: left;
+    margin: 0px 40px 0px 0xp;
+}
+
 /* main page */
 .page-content{
     margin-top: 40px;
     text-align: center;
     justify-content: center;
     align-items: center;
+}
+
+.post-text{
+    text-align: left;
+    margin: 0px 0px 0px 15px;
+}
+
+/* The sticky class is added to the navbar with JS when it reaches its scroll position */
+.sticky {
+    position: fixed;
+    top: 0;
+    overflow-y: auto;
+    width: 15%;
+    max-height: 100vh;
 }
 
 /* posts */
@@ -68,6 +153,48 @@
     background-color: orange;
     border-radius: 50%;
     margin: 0px 0px 0px 30px;
+}
+
+#avatar-chat{
+    width: 50px;
+    height: 50px;
+    background-color: orange;
+    border-radius: 50%;
+    /*margin: 0px 0px 0px 0px;*/
+}
+
+.avatar-search{
+    height: 85px;
+    width: 85px;
+    border-radius: 50%;
+}
+
+.user-profile-wrap{
+    margin: 0px 0px 15px 0px;
+}
+
+.user-profile-wrap:hover{
+    background-color: gray;
+}
+
+.my-avatar{
+    width: 50px !important;
+    height: 50px;
+    background-color: orange;
+    border-radius: 50%;
+    margin: 0px 0px 0px 0px;
+}
+
+#name-text{
+    margin: 12px 0px 0px 20px;
+}
+
+.avatar-profile{
+    width: 100px !important;
+    height: 100px;
+    background-color: orange;
+    border-radius: 50%;
+    margin: 10px 0px 0px 30px;
 }
 
 .avatar-comment{
@@ -113,18 +240,153 @@
     height: 30px;
 }
 
+.icon{
+    height: 30px;
+    width: 30px;
+    margin: 14px 0px 0px 0px;
+}
+
 .like-btn, comment-btn{
     height: 30px;
     cursor: pointer;
 }
 
-.like-btn:hover, .comment-btn:hover{
-    background-color: #edf0f5;
+.like-btn{
+    width: 80px;
+    border: none !important;
+}
+
+.liked-btn{
+    width: 80px;
+    background-color: #8ec1ff;
     height: 30px;
+    border: none !important;
+}
+
+.avatar-group{
+    min-height: 100px;
+    min-width: 100px;
+    max-height: 150px;
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+.list-group-avatar{
+    max-height: 120px;
+    max-width: 120px;
+    border-radius: 50%;
+}
+
+#post-post{
+    margin: 30px 0px 0px 0px;
+}
+
+#group-header-bar{
+    margin-top: 70px;
+}
+
+#bar-left-group{
+    height: 100vh;
+    background-color: white;
+}
+.group-avatar-bar{
+    max-height: 50px;
+    max-width: 50px;
+}
+.group-avatar{
+    max-height: 150px;
+    max-width: 150px;
+    border-radius: 50%;
+}
+
+.like-btn:hover, .comment-btn:hover{
+    /*background-color: #edf0f5;*/
+    height: 30px;
+}
+
+.group-wrap{
+    height: auto;
+    background-color: white;
+    margin-bottom: 10px;
+    padding: 5px 0px 5px 0px;
+}
+
+.dropdown-comment{
+    /*height: 50px;*/
+    text-align: center;
+}
+
+.btn-more{
+    height: 25px;
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+    margin: 10px 0px 10px -40px;
+    background-color: #aba8a8;
+}
+
+.btn-more-post{
+    height: 25px;
+    width: 50px;
+    text-align: center;
+    justify-content: center;
+    margin: 10px 0px 10px -40px;
+    background-color: white;
+}
+
+.btn-link{
+    background-color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.edit-button{
+    margin-left: 8px;
+}
+
+.etc{
+    /*margin: 0px 5px 10px -5px;*/
+    /*height: 100px;*/
+}
+
+.edit-input{
+    width: 90%;
+    margin: 30px 0px 0px 40px;
+}
+
+.post-edit{
+    margin-left: 70px;
+}
+
+.image-post{
+    min-height: 100px;
+    min-width: 100px;
+    max-height: 600px;
+    max-width: 600px;
+
 }
 /* Profile */
 .profile-page{
-    margin-top: 40px;
+    margin-top: 60px;
+}
+
+.profile-text{
+    margin: 15px 0px 0px 0px;
+}
+
+#add-friends-button, #messages-button{
+    float: right;
+    margin-left: 4px;
+}
+
+#button-wrap{
+    margin: 40px 10px 0px 0px;
+}
+
+#profile-wrap{
+    background-color: white;
+    width: 100%;
+    height: 130px;
 }
 
 .edit-user-information{
@@ -139,14 +401,38 @@ h1{
     text-align: center;
 }
 
+.text-request{
+    margin: 25px 0px 0px 0px;
+}
+
+.avatar-request{
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    margin: 10px 0px 0px 0px;
+}
+
+.button-request{
+    margin: 5px 0px 5px 0px;
+}
+
+.like-amount{
+    text-align: left;
+    font-weight: bold;
+    color: #aba8a8;
+    margin: 0px 0px 10px 10px;
+}
+
 /* Bar */
 .bar{
     margin-top: 60px;
+    /*background-color: white;*/
 }
 
 .tab-bar-left{
-    height: 40px;
+    height: auto;
     background-color: white;
+    margin: 3px 0px 0px 0px;
 }
 
 .tab-bar-left:hover{
@@ -167,4 +453,38 @@ body{
 
 .space{
     height: 40px;
+}
+
+/* Search */
+#search-wrap{
+    margin: 100px 0px 0px 0px;
+}
+
+/* message */
+#name-message{
+    margin: 10px 0px 0px 0px;
+}
+
+#image-avatar{
+    text-align: center;
+    margin-top: 10px;
+}
+
+#avatar-user-details{
+    max-height: 70px;
+    max-width: 70px;
+    border-radius: 50%;
+}
+
+#text-avatar{
+    text-align: center;
+}
+
+#user-details-button{
+    margin-left: 10px;
+}
+
+#user-message-wrap{
+    height: 88vh;
+    background-color: white;
 }

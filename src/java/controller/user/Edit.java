@@ -8,11 +8,15 @@ import dal.UserDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.MultipartConfig;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.Part;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import model.User;
 
 /**
@@ -20,6 +24,7 @@ import model.User;
  * @author ngoqu
  */
 @WebServlet(name = "Edit", urlPatterns = {"/edit"})
+@MultipartConfig
 public class Edit extends HttpServlet {
 
     /**
@@ -77,7 +82,26 @@ public class Edit extends HttpServlet {
         HttpSession session = request.getSession();
         User user = (User) session.getAttribute("account");
         UserDAO ud = new UserDAO();
+        String imagePath = null;
+        // Save avatar_path of user
+        // Luu anh vao trong project
+        try {
+            Part part = request.getPart("image");
+            String realPath = request.getServletContext().getRealPath("/uploads/avatar");
+            String filename = Paths.get(part.getSubmittedFileName()).getFileName().toString();
 
+            if (!Files.exists(Paths.get(realPath))) {
+                Files.createDirectory(Paths.get(realPath));
+            }
+            part.write(realPath + "/" + filename);
+
+            imagePath = "uploads/avatar/" + filename;
+
+        } catch (IOException e) {
+            System.out.println(e);
+        }
+
+        // Save information of user
         String name = request.getParameter("name");
         String password = request.getParameter("password");
 
@@ -88,14 +112,14 @@ public class Edit extends HttpServlet {
             request.setAttribute("status", status);
             request.getRequestDispatcher("edit_profile.jsp").forward(request, response);
         } else {
-            user = new User(name, user.getEmail(), user.getPassword(), user.getAdmin());
+            user = new User(user.getUserId(), name, user.getEmail(), user.getPassword(), user.getAdmin(), imagePath);
             ud.update(user);
             String message = "Change information successfuly!";
             String status = "success";
             request.setAttribute("message", message);
             request.setAttribute("status", status);
             session.setAttribute("account", user);
-            request.getRequestDispatcher("profile.jsp").forward(request, response);
+            response.sendRedirect("profile?id="+user.getUserId());
         }
     }
 

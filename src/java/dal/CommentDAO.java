@@ -104,6 +104,18 @@ public class CommentDAO extends DBContext{
         return null;
     }
     
+    public void editComment(int commentId, String content){
+        String sql = "Update Comments set Content = ? where commentId = ?";
+        try{
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, content);
+            st.setInt(2, commentId);
+            st.executeUpdate();
+        }catch(SQLException e){
+            System.out.println(e);
+        }
+    }
+    
     public static void main(String[] args) {
         CommentDAO cd = new CommentDAO();
 //        Comment comment = new Comment(1, "Wow, that's amazing", 2, 11);

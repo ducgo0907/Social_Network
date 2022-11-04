@@ -7,6 +7,7 @@ package dal;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import model.User;
 
@@ -31,7 +32,10 @@ public class UserDAO extends DBContext {
             st.setString(2, password);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new User(rs.getInt("userId"), rs.getString("name"), email, password, rs.getInt("admin"));
+                return new User(rs.getInt("userId"),
+                        rs.getString("name"), email,
+                        password, rs.getInt("admin"),
+                        rs.getString("avatar_path"));
             }
         } catch (SQLException e) {
             System.out.println(e);
@@ -52,15 +56,39 @@ public class UserDAO extends DBContext {
             st.setInt(1, id);
             ResultSet rs = st.executeQuery();
             if (rs.next()) {
-                return new User(rs.getInt("userId"), 
-                        rs.getString("name"), 
-                        rs.getString("email"), 
-                        rs.getInt("admin"));
+                return new User(rs.getInt("userId"),
+                        rs.getString("name"),
+                        rs.getString("email"),
+                        rs.getInt("admin"),
+                        rs.getString("avatar_path")
+                );
             }
         } catch (SQLException e) {
             System.out.println(e);
         }
         return null;
+    }
+
+    public List<User> getUsersBySearch(String name) {
+        List<User> list = new ArrayList<>();
+        String sql = "Select * from users where name like ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + name + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User user = new User(
+                        rs.getInt("userId"),
+                        rs.getString("name"),
+                        rs.getString(("avatar_path"))
+                );
+                list.add(user);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return list;
     }
 
     /**
@@ -90,13 +118,18 @@ public class UserDAO extends DBContext {
      * @param user the information of user
      */
     public void insert(User user) {
-        String sql = "Insert into Users VALUES(?, ?, ?, ?)";
+        String sql = "Insert into Users VALUES(?, ?, ?, ?, ?)";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, user.getName());
             st.setString(2, user.getEmail());
             st.setString(3, user.getPassword());
             st.setInt(4, user.getAdmin());
+            if (user.getAvatarPath() != null) {
+                st.setString(5, user.getAvatarPath());
+            }else{
+                st.setString(5, "images/default_image.png");
+            }
             st.executeQuery();
         } catch (SQLException e) {
             System.out.println(e);
@@ -109,11 +142,12 @@ public class UserDAO extends DBContext {
      * @param user
      */
     public void update(User user) {
-        String sql = "update users set name = ? where email = ?";
+        String sql = "update users set name = ?, avatar_path = ? where email = ?";
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, user.getName());
-            st.setString(2, user.getEmail());
+            st.setString(2, user.getAvatarPath());
+            st.setString(3, user.getEmail());
             st.executeUpdate();
         } catch (SQLException e) {
             System.out.println(e);
@@ -131,10 +165,10 @@ public class UserDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public static void main(String[] args) {
         UserDAO ud = new UserDAO();
         User user = ud.getUserById(1);
-        System.out.println(user.getName());
+        System.out.println(ud.getUsersBySearch("u").get(2).getName());
     }
 }

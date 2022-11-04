@@ -17,13 +17,16 @@
         <div class="edit-user-information container">
             <h1>Edit your profile</h1>
             <div class="col-lg-4"></div>
-            <form class="col-lg-4" action="edit" method="post">
+            <form class="col-lg-4" action="edit" method="post" enctype="multipart/form-data">
                 <label for="name" class="text-form">Name</label>
                 <input type="text" name="name" value="${sessionScope.account.name}" class="form-control"/><br/>
                 <label for="email" class="text-form">Email</label>
                 <input type="text" name="email" readonly value="${sessionScope.account.email}" class="form-control"/><br/>
                 <label for="password" class="text-form">Password</label>
                 <input type="password" name="password" class="form-control"/><br/>
+                <label for="image" class="text-form">Avatar</label>
+                <input type="file" name="image"/>
+                <br/>
                 <input type="submit" value="Change your profile" class="btn btn-primary"/>
             </form>
             <div class="col-lg-4"></div>

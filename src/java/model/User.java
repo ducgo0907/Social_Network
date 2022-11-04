@@ -14,8 +14,15 @@ public class User {
     private String email;
     private String password;
     private int admin;
+    private String avatarPath;
 
     public User() {
+    }
+
+    public User(int userId, String name, String avatarPath) {
+        this.userId = userId;
+        this.name = name;
+        this.avatarPath = avatarPath;
     }
     
     public User(int userId, String name, String email, int admin){
@@ -32,12 +39,37 @@ public class User {
         this.admin = admin;
     }
 
+    public User(int userId, String name, String email, int admin, String avatarPath) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.admin = admin;
+        this.avatarPath = avatarPath;
+    }
+
     public User(int userId, String name, String email, String password, int admin) {
         this.userId = userId;
         this.name = name;
         this.email = email;
         this.password = password;
         this.admin = admin;
+    }
+
+    public User(String name, String email, String password, int admin, String avatarPath) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        this.avatarPath = avatarPath;
+    }
+
+    public User(int userId, String name, String email, String password, int admin, String avatarPath) {
+        this.userId = userId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.admin = admin;
+        this.avatarPath = avatarPath;
     }
 
     public String getEmail() {
@@ -74,6 +106,14 @@ public class User {
 
     public void setAdmin(int admin) {
         this.admin = admin;
+    }
+
+    public String getAvatarPath() {
+        return avatarPath;
+    }
+
+    public void setAvatarPath(String avatarPath) {
+        this.avatarPath = avatarPath;
     }
 
 }

@@ -96,7 +96,7 @@ public class Register extends HttpServlet {
             String status = "success";
             request.setAttribute("message", message);
             request.setAttribute("status", status);
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            request.getRequestDispatcher("login.jsp").forward(request, response);
         }
     }
 

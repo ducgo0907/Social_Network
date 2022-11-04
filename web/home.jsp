@@ -14,24 +14,40 @@
     </head> 
     <body>
         <jsp:include page="layouts/header.jsp" />
-        <div class="col-lg-2">
-            <jsp:include page="layouts/bar-left.jsp" />
-        </div>
-        <div class="col-lg-8 page-content">
-            <h1>Hello ${sessionScope.account.name}</h1>
-            <div class="row">
-                <jsp:include page="posts/new.jsp"/>
+        <div class="row" id="wrap-all">
+            <div class="col-lg-2">
+                <jsp:include page="layouts/bar-left.jsp" />
             </div>
-            <div class="row">
-                <div class="col-lg-2"></div>
-                <div class="col-lg-8">
-                    <jsp:include page="posts/list.jsp"/>
+            <div class="col-lg-8 page-content">
+                <h1>Hello ${sessionScope.account.name}</h1>
+                <div class="row">
+                    <div>
+                        <jsp:include page="posts/new.jsp"/>
+                    </div>
                 </div>
-                <div class="col-lg-2"></div>
+                <div class="row">
+                    <div class="col-lg-2"></div>
+                    <div class="col-lg-8">
+                        <br/>
+                        <jsp:include page="posts/list.jsp"/>
+                    </div>
+                    <div class="col-lg-2">
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <jsp:include page="layouts/bar-right.jsp"/>
             </div>
         </div>
-        <div class="col-lg-2">
-            <jsp:include page="layouts/bar-right.jsp"/>
-        </div>
+        <script type="text/javascript">
+            if(localStorage.getItem("sortType") === 'mostlike'){
+                document.getElementById('optionMostLike').selected = true;
+            }
+            function changeOption(e) {
+                localStorage.setItem("sortType", e.value);
+                window.location = "home?sort=" + e.value;
+            }
+        </script>
     </body>
 </html>

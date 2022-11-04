@@ -83,7 +83,6 @@ public class LoginServlet extends HttpServlet {
         UserDAO ud = new UserDAO();
         PostDAO pd = new PostDAO();
         User user = ud.getUser(email, password);
-        List<Post> listPost = pd.getAllPosts();
         if (user == null) {
             String message = "Username or password is incorrect";
             request.setAttribute("message", message);
@@ -93,9 +92,8 @@ public class LoginServlet extends HttpServlet {
             // Correct user
             HttpSession session = request.getSession();
             session.setAttribute("account", user);
-            request.setAttribute("listPost", listPost);
             // Redirect to home
-            request.getRequestDispatcher("home.jsp").forward(request, response);
+            response.sendRedirect("home");
         }
 
     }

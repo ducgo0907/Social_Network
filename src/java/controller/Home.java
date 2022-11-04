@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.FriendDAO;
 import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,7 +15,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
+import model.FriendRequest;
 import model.Post;
+import model.User;
 
 /**
  *
@@ -62,10 +65,16 @@ public class Home extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO pd = new PostDAO();
-        List<Post> listPost = pd.getAllPosts();
+        List<Post> listPost = pd.getAllPosts("dateCreated");
         HttpSession session = request.getSession();
+        FriendDAO fd = new FriendDAO();
         if (session.getAttribute("account") != null) {
+            User user = (User) session.getAttribute("account");
+            List<FriendRequest> listRequest = fd.getAllFriendRequestById(user.getUserId());
+            List<FriendRequest> listFriend = fd.getAllFriend(user.getUserId());
             request.setAttribute("listPost", listPost);
+            request.setAttribute("listRequest", listRequest);
+            request.setAttribute("listFriends", listFriend);
         }
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
