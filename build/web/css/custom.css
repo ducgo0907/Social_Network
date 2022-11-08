@@ -11,6 +11,22 @@
     background-color: white;
 }
 
+.bar-header{
+    background-color: white;
+    height: auto;
+    width: 1140px;
+}
+
+.btn-bar-header{
+    margin-left: 15px;
+    cursor: pointer;
+    display: flex;
+    text-align: center;
+}
+
+.btn-bar-header:hover{
+    background-color: #e2e1e1;
+}
 .space-header{
     margin-top: 70px;
 }
@@ -153,6 +169,26 @@
     background-color: orange;
     border-radius: 50%;
     margin: 0px 0px 0px 30px;
+}
+
+.avatar-profile-2{
+    height: 70px;
+    width: 70px;
+}
+
+.image-profile{
+    height: 150px;
+    width: 150px
+}
+
+.friend-profile-wrap{
+    background-color: white;
+    margin: 5px 40px 10px 20px;
+    cursor: pointer;
+}
+
+.friend-profile-wrap:hover{
+    background-color: #aba8a8;
 }
 
 #avatar-chat{
@@ -334,6 +370,20 @@
     background-color: white;
 }
 
+.btn-status-post{
+    height: 15px;
+    width: 30px;
+    text-align: left;
+    justify-content: left;
+    margin: -6px 0px 10px -12px;
+    background-color: white;
+    float:left;
+}
+
+.dropdown-nofications:hover{
+    background-color: gray;
+}
+
 .btn-link{
     background-color: white;
     border: none;
@@ -419,8 +469,15 @@ h1{
 .like-amount{
     text-align: left;
     font-weight: bold;
-    color: #aba8a8;
+    color: black;
     margin: 0px 0px 10px 10px;
+}
+
+.comment-amount{
+    text-align: right;
+    font-weight: bold;
+    color: black;
+    margin: 0px 10px 10px 0px;
 }
 
 /* Bar */

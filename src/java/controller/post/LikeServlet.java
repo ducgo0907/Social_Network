@@ -5,6 +5,7 @@
 package controller.post;
 
 import dal.LikeDAO;
+import dal.NoficationDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -75,13 +76,16 @@ public class LikeServlet extends HttpServlet {
         String user_id_raw = request.getParameter("userId");
         String post_id_raw = request.getParameter("postId");
         LikeDAO ld = new LikeDAO();
+        NoficationDAO nd = new NoficationDAO();
         try {
             int user_id = Integer.parseInt(user_id_raw);
             int post_id = Integer.parseInt(post_id_raw);
             if (ld.checkExisted(user_id, post_id)) {
                 ld.destroy(user_id, post_id);
+                nd.insertNofication(post_id, user_id, "Unlike");
             } else {
                 ld.insert(user_id, post_id);
+                nd.insertNofication(post_id, user_id, "Like");
             }
         } catch (NumberFormatException e) {
             System.out.println(e);

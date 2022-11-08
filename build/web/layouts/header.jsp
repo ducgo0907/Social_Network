@@ -37,6 +37,7 @@
                             <select style="color: black; height: 28px;" name="typeSearch">
                                 <option value="user">User</option>
                                 <option value="post">Post</option>
+                                <option value="group">Group</option>
                             </select>
                             <input type="submit" value="Search" class="btn btn-success"/>
                         </form>
@@ -44,6 +45,30 @@
                     <c:if test="${sessionScope.account != null}">
 
                         <div class="righ-tab-header">
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-bell"></i>
+                                </button>
+                                <div class="dropdown-menu">
+                                    <c:if test="${requestScope.listNofications.size() <= 0}">
+                                        <div class="dropdown-item" style="color: black">
+                                            <div style="width: 400px">
+                                                You don't have any new nofications!
+                                            </div>
+                                        </div>
+                                    </c:if>
+                                    <c:if test="${requestScope.listNofications.size() > 0}">
+                                        <c:forEach items="${requestScope.listNofications}" var="nofication">
+                                            <a class="dropdown-item" style="color: black" href="showpost?id=${nofication.postId}">
+                                                <div class="dropdown-nofications" style="width: 400px">
+                                                    <img src="${nofication.user.avatarPath}" class="avatar"/>
+                                                    ${nofication.user.name} ${nofication.message} your post
+                                                </div>
+                                            </a>
+                                        </c:forEach>
+                                    </c:if>
+                                </div>
+                            </div>
                             <a class="text-tab btn" href="profile?id=${sessionScope.account.getUserId()}">Profile</a>
                             <a class="text-tab btn" href="check?action=edit">Edit</a>
                             <a class="text-tab btn" href="check?action=change">Change password</a>

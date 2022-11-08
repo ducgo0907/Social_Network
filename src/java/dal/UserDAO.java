@@ -9,6 +9,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import model.Post;
 import model.User;
 
 /**
@@ -90,6 +91,19 @@ public class UserDAO extends DBContext {
 
         return list;
     }
+    
+    public List<String> getAllImageById(int userId){
+        List<String> listImagePath = new ArrayList<>();
+        listImagePath.add(new UserDAO().getUserById(userId).getAvatarPath());
+        PostDAO pd = new PostDAO();
+        List<Post> listPost = pd.getAllPostsByUserId(userId);
+        for (Post post : listPost) {
+            if(post.getImagePath() != null){
+                listImagePath.add(post.getImagePath());
+            }
+        }
+        return listImagePath;
+    }
 
     /**
      * Check a email is existed or not?
@@ -169,6 +183,9 @@ public class UserDAO extends DBContext {
     public static void main(String[] args) {
         UserDAO ud = new UserDAO();
         User user = ud.getUserById(1);
-        System.out.println(ud.getUsersBySearch("u").get(2).getName());
+        List<String> list = ud.getAllImageById(1);
+        for (String string : list) {
+            System.out.println(string);
+        }
     }
 }

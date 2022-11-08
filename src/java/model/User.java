@@ -4,11 +4,14 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  *
  * @author ngoqu
  */
 public class User {
+
     private int userId;
     private String name;
     private String email;
@@ -24,8 +27,8 @@ public class User {
         this.name = name;
         this.avatarPath = avatarPath;
     }
-    
-    public User(int userId, String name, String email, int admin){
+
+    public User(int userId, String name, String email, int admin) {
         this.name = name;
         this.userId = userId;
         this.email = email;
@@ -115,5 +118,6 @@ public class User {
     public void setAvatarPath(String avatarPath) {
         this.avatarPath = avatarPath;
     }
+
 
 }

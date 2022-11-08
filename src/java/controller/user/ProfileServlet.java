@@ -66,22 +66,27 @@ public class ProfileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String id_raw = request.getParameter("id");
+        String action = request.getParameter("action");
         UserDAO ud = new UserDAO();
         PostDAO pd = new PostDAO();
         FriendDAO fd = new FriendDAO();
         HttpSession session = request.getSession();
-        User currentUser = (User)session.getAttribute("account");
+        User currentUser = (User) session.getAttribute("account");
         try {
             int id = Integer.parseInt(id_raw);
             User user = ud.getUserById(id);
             List<Post> listPost = pd.getAllPostsByUserId(id);
             FriendRequest statusRequest = fd.getRequest(currentUser.getUserId(), id);
-            
+            List<User> listFriends = fd.getFriendById(id);
+            List<String> listImagePath = ud.getAllImageById(id);
             if (statusRequest != null) {
                 request.setAttribute("status", statusRequest.getStatus());
             }
+            request.setAttribute("action", action);
             request.setAttribute("user", user);
             request.setAttribute("listPost", listPost);
+            request.setAttribute("listFriends", listFriends);
+            request.setAttribute("listImage", listImagePath);
         } catch (NumberFormatException e) {
             System.out.println(e);
         }

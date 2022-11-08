@@ -121,7 +121,7 @@ public class NewPost extends HttpServlet {
         if (user != null) {
             Post post;
             if (groupId != 0) {
-                post = new Post(content, user.getUserId(), imagePath, "private");
+                post = new Post(content, user.getUserId(), imagePath, "group");
                 int postId = pd.insertReturnId(post);
                 pd.insertPostGroup(postId, groupId);
             } else {

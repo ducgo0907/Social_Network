@@ -43,4 +43,7 @@
     </div>
     <div class="col-lg-2"></div>
 </div>
+<c:if test="${listGroup.size() > 0}">
+    <jsp:include page="list_group.jsp" />
+</c:if>
 

@@ -22,10 +22,47 @@
                         </c:if>
                     </div>
                     <div class="col-lg-9 name-user">
-                        <div>
-                            <a href="profile?id=${post.user.getUserId()}">${post.user.getName()}</a>
+                        <div class="row">
+                            <div>
+                                <a href="profile?id=${post.user.getUserId()}">${post.user.getName()}</a>
+                            </div>
+                            <div>${post.getDateCreated()}</div>
+                            <div>
+                                <c:if test="${post.status != 'group'}">
+                                    <div class="dropdown dropdown-comment">
+                                        <button class="btn btn-secondary dropdown-toggle btn-status-post" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            <c:if test="${post.status == 'public'}">
+                                                ${post.status} <i class="fa fa-earth"></i>
+                                            </c:if>
+                                            <c:if test="${post.status == 'private'}">
+                                                ${post.status} <i class="fa fa-key"></i>
+                                            </c:if>
+                                        </button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+
+                                            <form action="changestatus" method="post">
+                                                <input type="hidden" value="public" name="status" />
+                                                <input type="hidden" value="${post.getPostId()}" name="postId" />
+                                                <input type="hidden" value="${post.getUserId()}" name="userId" />
+                                                <button type="submit" class="dropdown-item edit-button btn-link">
+                                                    <i class="fa fa-earth">Public</i>
+                                                </button>
+                                            </form>
+
+                                            <br/>
+                                            <form action="changestatus" method="post">
+                                                <input type="hidden" value="private" name="status" />
+                                                <input type="hidden" value="${post.getPostId()}" name="postId" />
+                                                <input type="hidden" value="${post.getUserId()}" name="userId" />
+                                                <button class="dropdown-item edit-button btn-link">
+                                                    <i class="fa fa-key">Private</i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>  
+                                </c:if>
+                            </div>
                         </div>
-                        <div>${post.getDateCreated()}</div>
                     </div>
                     <div class="col-lg-1">
                         <div class="dropdown dropdown-comment">
@@ -78,13 +115,20 @@
                 </div>
             </div>
             <br/>
-            <div class="like-amount">
-                <c:if test="${post.getLikeAmout() > 1}">
-                    ${post.userLike.get(post.userLike.size() - 1).getName()} and ${post.userLike.size() - 1} people liked 
-                </c:if>
-                <c:if test="${post.getLikeAmout() == 1}">
-                    ${post.userLike.get(post.userLike.size() - 1).getName()} liked 
-                </c:if>
+            <div class="row">
+                <div class="like-amount col-lg-5">
+                    <c:if test="${post.getLikeAmout() > 1}">
+                        ${post.userLike.get(post.userLike.size() - 1).getName()} and ${post.userLike.size() - 1} people liked 
+                    </c:if>
+                    <c:if test="${post.getLikeAmout() == 1}">
+                        ${post.userLike.get(post.userLike.size() - 1).getName()} liked 
+                    </c:if>
+                </div>
+                <div class="comment-amount col-lg-6">
+                    <c:if test="${post.comments.size() > 0}">
+                        ${post.comments.size()} comments
+                    </c:if>
+                </div>
             </div>
             <div class="horizontal-line"></div>
             <div class="reaction">

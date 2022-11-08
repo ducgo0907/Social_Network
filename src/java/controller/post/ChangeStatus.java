@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.comment;
+package controller.post;
 
-import dal.CommentDAO;
-import dal.NoficationDAO;
+import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,14 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Comment;
 import model.User;
 
 /**
  *
  * @author ngoqu
  */
-@WebServlet(name = "NewComment", urlPatterns = {"/newcomment"})
-public class NewComment extends HttpServlet {
+@WebServlet(name = "ChangeStatus", urlPatterns = {"/changestatus"})
+public class ChangeStatus extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +39,10 @@ public class NewComment extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewComment</title>");
+            out.println("<title>Servlet ChangeStatus</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewComment at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ChangeStatus at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +60,7 @@ public class NewComment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        processRequest(request, response);
     }
 
     /**
@@ -76,21 +74,20 @@ public class NewComment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String commentContent = request.getParameter("comment");
+        String status = request.getParameter("status");
         String postId_raw = request.getParameter("postId");
+        String userId_raw = request.getParameter("userId");
         HttpSession session = request.getSession();
-        CommentDAO cd = new CommentDAO();
-        NoficationDAO nd = new NoficationDAO();
-        if (session.getAttribute("account") != null) {
-            User user = (User) session.getAttribute("account");
+        User curren_user = (User) session.getAttribute("account");
+        PostDAO pd = new PostDAO();
+        try {
             int postId = Integer.parseInt(postId_raw);
-            Comment comment = new Comment(
-                    commentContent,
-                    user.getUserId(),
-                    postId
-            );
-            cd.insertComment(comment);
-            nd.insertNofication(postId, user.getUserId(), "Comment");
+            int userId = Integer.parseInt(userId_raw);
+            if (status != null && userId == curren_user.getUserId()) {
+                pd.changeStatusPost(postId, status);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println(e);
         }
         response.sendRedirect("home");
     }

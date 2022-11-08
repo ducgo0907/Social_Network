@@ -72,13 +72,18 @@ public class ShowGroup extends HttpServlet {
             Group group = gd.getGroupById(id);
             List<User> listRequest = gd.getAllRequestMemberOfGroup(id);
             List<User> listMember = gd.getAllMemberOfGroup(id);
-            for (User user : listMember) {
-                if (user.getUserId() == current_user.getUserId()
-                        || current_user.getUserId() == group.getOwnerId()) {
-                    isAccess = true;
-                    break;
+            if (current_user.getUserId() == group.getOwnerId()) {
+                isAccess = true;
+            } else {
+                for (User user : listMember) {
+                    System.out.println(current_user.getUserId() + ", " + group.getOwnerId());
+                    if (user.getUserId() == current_user.getUserId()) {
+                        isAccess = true;
+                        break;
+                    }
                 }
             }
+
             request.setAttribute("group", group);
             request.setAttribute("listPost", group.getListPost());
             request.setAttribute("listRequest", listRequest);

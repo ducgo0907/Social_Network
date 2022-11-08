@@ -43,11 +43,11 @@
         </c:forEach>
     </div>
     <h1>Friends</h1>
-    <div class="row">
+    <input oninput="searchByName(this)" type="text" name="searchValue" class="form-control" placeholder="Search friends..."/>
+    <div class="row" id="list-friend-wrap">
         <c:forEach items="${requestScope.listFriends}" var="friend">
             <c:if test="${friend.getUserRequest().getUserId() == sessionScope.account.getUserId()}">
                 <c:set var="f" value="${friend.getUserBeRequest()}"  /> 
-
             </c:if>
             <c:if test="${friend.getUserRequest().getUserId() != sessionScope.account.getUserId()}">
                 <c:set var="f" value="${friend.getUserRequest()}"  /> 
@@ -72,3 +72,22 @@
         </c:forEach>
     </div>
 </div>
+<script>
+    function searchByName(param) {
+        var nameSearch = param.value;
+        $.ajax({
+            url: "/socialnetwork/searchfriend",
+            type: "get",
+            data: {
+                searchValue: nameSearch,
+            },
+            success: function (data) {
+                var row = document.getElementById('list-friend-wrap');
+                row.innerHTML = data;
+            },
+            error: function (jqXHR) {
+                console.log(jqXHR)
+            }
+        });
+    }
+</script>

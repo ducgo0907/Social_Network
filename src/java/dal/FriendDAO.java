@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import model.FriendRequest;
+import model.User;
 
 /**
  *
@@ -70,6 +71,53 @@ public class FriendDAO extends DBContext {
         return list;
     }
 
+    public List<User> getFriendById(int userId) {
+        List<User> list = new ArrayList<>();
+        String sql = "Select * from Friend_Requests where"
+                + " (user_be_request_id = ? or user_request_id = ?) and status = 'accepted'";
+        UserDAO ud = new UserDAO();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, userId);
+            st.setInt(2, userId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                User friend;
+                if (rs.getInt("user_request_id") == userId) {
+                    friend = ud.getUserById(rs.getInt("user_be_request_id"));
+                } else {
+                    friend = ud.getUserById(rs.getInt("user_request_id"));
+                }
+                list.add(friend);
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return list;
+    }
+
+    public List<User> searchFriendsByName(String name, int userId) {
+        List<User> list = new ArrayList<>();
+        String sql = "Select * from users where name like ?";
+        FriendDAO fd = new FriendDAO();
+        UserDAO ud = new UserDAO();
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, "%" + name + "%");
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                if (fd.isFriend(rs.getInt("userId"), userId)) {
+                    list.add(ud.getUserById(rs.getInt("userId")));
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+
+        return list;
+    }
+
     public FriendRequest getRequest(int userRequestId, int userBeRequestId) {
         String sql = "SELECT * FROM Friend_Requests Where (user_request_id = ?"
                 + " and user_be_request_id = ?) or "
@@ -92,6 +140,27 @@ public class FriendDAO extends DBContext {
             System.out.println(e);
         }
         return null;
+    }
+
+    public boolean isFriend(int userId, int userIdT) {
+        String sql = "Select * from Friend_Requests where"
+                + " (user_be_request_id = ? and user_request_id = ?) "
+                + " or (user_be_request_id = ? and user_request_id = ?)"
+                + " and status = 'accepted'";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, userId);
+            st.setInt(2, userIdT);
+            st.setInt(3, userIdT);
+            st.setInt(4, userId);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {
+                return true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+        return false;
     }
 
     public void requestFriend(FriendRequest friendRequest) {
@@ -137,9 +206,6 @@ public class FriendDAO extends DBContext {
     }
 
     public static void main(String[] args) {
-        FriendDAO fd = new FriendDAO();
-        FriendRequest fq = new FriendRequest(1, 2, "pending");
-//        System.out.println(fd.getRequest(1, 11).getStatus());
-        fd.deleteRequest(21, 1);
+        
     }
 }

@@ -12,6 +12,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import model.Post;
+import utils.Helper;
 
 /**
  *
@@ -19,15 +20,19 @@ import model.Post;
  */
 public class PostDAO extends DBContext {
 
-    public List<Post> getAllPosts(String sortType) {
-        String sql = "Select * from posts where status = 'public' "
-                + " order by " + sortType + " desc";
+    public List<Post> getAllPosts(int userId) {
+        FriendDAO fd = new FriendDAO();
+        String friendsIds = Helper.listIdFriend(fd.getFriendById(userId));
+        String sql = "Select * from posts where userId = ? or (status = 'public' and "
+                + "userId in " + friendsIds + ")"
+                + " order by dateCreated desc";
         List<Post> list = new ArrayList<>();
         UserDAO ud = new UserDAO();
         CommentDAO cd = new CommentDAO();
         LikeDAO ld = new LikeDAO();
         try {
             PreparedStatement st = connection.prepareStatement(sql);
+            st.setInt(1, userId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
                 Post post = new Post(
@@ -39,7 +44,8 @@ public class PostDAO extends DBContext {
                         cd.getAllCommentByPostId(rs.getInt("postID")),
                         ld.likeAmount(rs.getInt("postId")),
                         rs.getString("image_path"),
-                        ld.getAllUserLikePost(rs.getInt("postId"))
+                        ld.getAllUserLikePost(rs.getInt("postId")),
+                        rs.getString("status")
                 );
                 list.add(post);
             }
@@ -132,7 +138,8 @@ public class PostDAO extends DBContext {
                         cd.getAllCommentByPostId(rs.getInt("postID")),
                         ld.likeAmount(rs.getInt("postId")),
                         rs.getString("image_path"),
-                        ld.getAllUserLikePost(rs.getInt("postId"))
+                        ld.getAllUserLikePost(rs.getInt("postId")),
+                        rs.getString("status")
                 );
             }
         } catch (SQLException e) {
@@ -165,7 +172,7 @@ public class PostDAO extends DBContext {
             System.out.println(e);
         }
     }
-    
+
     public int insertReturnId(Post post) {
         String sql = "Insert into Posts VALUES(?, ?, ?, ?, ?)";
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
@@ -185,14 +192,14 @@ public class PostDAO extends DBContext {
             System.out.println(e);
         }
         sql = "Select * from posts where dateCreated = ? ";
-        try{
+        try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setString(1, dtf.format(now));
             ResultSet rs = st.executeQuery();
-            if(rs.next()){
+            if (rs.next()) {
                 return rs.getInt("postId");
             }
-        }catch(SQLException e){
+        } catch (SQLException e) {
             System.out.println(e);
         }
         return 0;
@@ -219,8 +226,10 @@ public class PostDAO extends DBContext {
         String sql = "Delete Posts where postId = ?";
         CommentDAO cd = new CommentDAO();
         LikeDAO ld = new LikeDAO();
+        NoficationDAO nd = new NoficationDAO();
         cd.destroyCommentByPostId(id);
         ld.destroyByPostId(id);
+        nd.destroyByPostId(id);
         try {
             PreparedStatement st = connection.prepareStatement(sql);
             st.setInt(1, id);
@@ -242,16 +251,22 @@ public class PostDAO extends DBContext {
         }
     }
 
+    public void changeStatusPost(int postId, String status) {
+        String sql = "Update Posts set status = ? where postId = ?";
+        try {
+            PreparedStatement st = connection.prepareStatement(sql);
+            st.setString(1, status);
+            st.setInt(2, postId);
+            st.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
+    }
+
     public static void main(String[] args) {
         PostDAO c = new PostDAO();
 //        List<Post> list = c.getAllPosts();
         Post post = new Post("Hello Everyone", 13);
-//        System.out.println(post.getContent());
-//        System.out.println(list.get(1).getPostId());
-//        c.destroyPostById(11);
-//        c.insert(post);
-//        System.out.println(c.getAllPosts("dateCreated").get(0).getDateCreated());
-//        c.destroyPostById(41);
-        System.out.println(c.getAllPosts("dateCreated").get(1).getContent());
+        System.out.println(c.getAllPosts(26).get(0).getContent());
     }
 }

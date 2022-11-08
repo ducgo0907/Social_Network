@@ -2,10 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package controller.comment;
+package controller.friend;
 
-import dal.CommentDAO;
-import dal.NoficationDAO;
+import dal.FriendDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import jakarta.servlet.ServletException;
@@ -14,15 +13,15 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import model.Comment;
+import java.util.List;
 import model.User;
 
 /**
  *
  * @author ngoqu
  */
-@WebServlet(name = "NewComment", urlPatterns = {"/newcomment"})
-public class NewComment extends HttpServlet {
+@WebServlet(name = "SearchFriendAjax", urlPatterns = {"/searchfriend"})
+public class SearchFriendAjax extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,10 +40,10 @@ public class NewComment extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet NewComment</title>");
+            out.println("<title>Servlet SearchFriendAjax</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet NewComment at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SearchFriendAjax at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -62,7 +61,33 @@ public class NewComment extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
+        response.setContentType("text/html;charset=UTF-8");
+        request.setCharacterEncoding("UTF-8");
 
+        String name = request.getParameter("searchValue");
+        HttpSession session = request.getSession();
+        User user = (User) session.getAttribute("account");
+        FriendDAO fd = new FriendDAO();
+        List<User> list = fd.searchFriendsByName(name, user.getUserId());
+
+        for (User friend : list) {
+            if (friend.getAvatarPath() == null) {
+                friend.setAvatarPath("/images/default_image.png");
+            }
+            out.println("<a href=\"profile?id=" + friend.getUserId() + "\">\n"
+                    + "                <div class=\"col-lg-12 tab-bar-left\">\n"
+                    + "                    <div class=\"row\">\n"
+                    + "                        <div class=\"col-lg-3\">                        \n"
+                    + "                            <img src=\"" + friend.getAvatarPath() + "\" class=\"avatar-request\"/>\n"
+                    + "                        </div>\n"
+                    + "                        <div class=\"col-lg-2 text-request\">\n"
+                    + "                            " + friend.getName() + "\n"
+                    + "                        </div>\n"
+                    + "                    </div>\n"
+                    + "                </div>\n"
+                    + "            </a>");
+        }
     }
 
     /**
@@ -76,23 +101,7 @@ public class NewComment extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String commentContent = request.getParameter("comment");
-        String postId_raw = request.getParameter("postId");
-        HttpSession session = request.getSession();
-        CommentDAO cd = new CommentDAO();
-        NoficationDAO nd = new NoficationDAO();
-        if (session.getAttribute("account") != null) {
-            User user = (User) session.getAttribute("account");
-            int postId = Integer.parseInt(postId_raw);
-            Comment comment = new Comment(
-                    commentContent,
-                    user.getUserId(),
-                    postId
-            );
-            cd.insertComment(comment);
-            nd.insertNofication(postId, user.getUserId(), "Comment");
-        }
-        response.sendRedirect("home");
+        processRequest(request, response);
     }
 
     /**

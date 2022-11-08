@@ -4,6 +4,7 @@
  */
 package controller;
 
+import dal.GroupDAO;
 import dal.PostDAO;
 import dal.UserDAO;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.util.List;
+import model.Group;
 import model.Post;
 import model.User;
 
@@ -74,6 +76,11 @@ public class Search extends HttpServlet {
                 PostDAO pd = new PostDAO();
                 List<Post> listPost = pd.getAllPostsByContent(name);
                 request.setAttribute("listPost", listPost);
+                break;
+            case "group":
+                GroupDAO gd = new GroupDAO();
+                List<Group> listGroup = gd.getAllGroupByName(name);
+                request.setAttribute("listGroup", listGroup);
                 break;
             default:
                 throw new AssertionError();

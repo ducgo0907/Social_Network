@@ -44,7 +44,7 @@
                             value="${requestScope.status == 'accepted' ?  'Friend' : 'Requested'}"
                             />
                     </c:if>
-                        <a href="message?id=${requestScope.user.getUserId()}">
+                    <a href="message?id=${requestScope.user.getUserId()}">
                         <button id="messages-button" class="btn btn-secondary">
                             Message
                         </button>
@@ -53,18 +53,61 @@
             </c:if>
         </div>
     </div>
+    <div class="row bar-header">
+        <div class="btn-bar-header col-lg-1" onclick="changeUrl('post', ${requestScope.user.getUserId()})">Posts</div>
+        <div class="btn-bar-header col-lg-1" onclick="changeUrl('friends', ${requestScope.user.getUserId()})">Friends</div>
+        <div class="btn-bar-header col-lg-1" onclick="changeUrl('image', ${requestScope.user.getUserId()})">Image</div>
+    </div>
 </div>
-<div class="row">
-    <div class="col-lg-2"></div>
-    <div class="col-lg-8">
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8 page-content">
-                <br/>
-                <jsp:include page="posts/list.jsp"/>
+<c:if test="${requestScope.action == 'post' || requestScope.action == null}">
+    <div class="row">
+        <div class="col-lg-2"></div>
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-lg-2"></div>
+                <div class="col-lg-8 page-content">
+                    <br/>
+                    <jsp:include page="posts/list.jsp"/>
+                </div>
+                <div class="col-lg-2"></div>
             </div>
-            <div class="col-lg-2"></div>
+        </div>
+        <div class="col-lg-2"></div>
+    </div>
+</c:if>
+<c:if test="${requestScope.action == 'friends'}">
+    <div class="container">
+        <div class="row">
+            <c:if test="${requestScope.listFriends.size() > 0}">
+                <h1 style="text-align: left">${requestScope.listFriends.size()} friends</h1>
+            </c:if>
+            <c:forEach items="${requestScope.listFriends}" var="friend">
+                <div class="col-lg-5 friend-profile-wrap" onclick="changeUrl('post',${friend.userId})">
+                    <div class="row">
+                        <div class="col-lg-2"><img src="${friend.avatarPath}" class="avatar-profile-2"/></div>
+                        <div class="col-lg-10">${friend.name}</div>
+                    </div>
+                </div>
+
+            </c:forEach>
         </div>
     </div>
-    <div class="col-lg-2"></div>
-</div>
+</c:if>
+    <c:if test="${requestScope.action == 'image'}">
+    <div class="container">
+        <div class="row">
+            <h1 style="text-align: left">Images (${requestScope.listImage.size()} images):</h1>
+            <c:forEach items="${requestScope.listImage}" var="image">
+                <div class="col-lg-2">
+                    <img src="${image}" class="image-profile"/>
+                </div>
+
+            </c:forEach>
+        </div>
+    </div>
+</c:if>
+<script type="text/javascript">
+    const changeUrl = (action, id) => {
+        window.location = "profile?id=" + id + "&action=" + action;
+    };
+</script>

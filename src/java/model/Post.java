@@ -21,7 +21,7 @@ public class Post {
     private int likeAmout;
     private String imagePath;
     private List<User> userLike;
-    private String Status;
+    private String status;
 
     public Post() {
     }
@@ -37,19 +37,19 @@ public class Post {
         this.imagePath = image_path;
     }
 
-    public Post(String content, int userId, String imagePath, String Status) {
+    public Post(String content, int userId, String imagePath, String status) {
         this.content = content;
         this.userId = userId;
         this.imagePath = imagePath;
-        this.Status = Status;
+        this.status = status;
     }
 
-    public Post(String content, int userId, String dateCreated, String imagePath, String Status) {
+    public Post(String content, int userId, String dateCreated, String imagePath, String status) {
         this.content = content;
         this.userId = userId;
         this.dateCreated = dateCreated;
         this.imagePath = imagePath;
-        this.Status = Status;
+        this.status = status;
     }
 
     public Post(String content, int userId, User user) {
@@ -120,6 +120,19 @@ public class Post {
         this.likeAmout = likeAmout;
         this.imagePath = imagePath;
         this.userLike = userLike;
+    }
+
+    public Post(int postId, String content, int userId, User user, String dateCreated, List<Comment> comments, int likeAmout, String imagePath, List<User> userLike, String status) {
+        this.postId = postId;
+        this.content = content;
+        this.userId = userId;
+        this.user = user;
+        this.dateCreated = dateCreated;
+        this.comments = comments;
+        this.likeAmout = likeAmout;
+        this.imagePath = imagePath;
+        this.userLike = userLike;
+        this.status = status;
     }
 
     public String getContent() {
@@ -195,11 +208,11 @@ public class Post {
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
-    public void setStatus(String Status) {
-        this.Status = Status;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

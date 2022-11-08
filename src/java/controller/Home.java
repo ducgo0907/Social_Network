@@ -5,6 +5,7 @@
 package controller;
 
 import dal.FriendDAO;
+import dal.NoficationDAO;
 import dal.PostDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.util.List;
 import model.FriendRequest;
+import model.Nofication;
 import model.Post;
 import model.User;
 
@@ -65,16 +67,19 @@ public class Home extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         PostDAO pd = new PostDAO();
-        List<Post> listPost = pd.getAllPosts("dateCreated");
         HttpSession session = request.getSession();
         FriendDAO fd = new FriendDAO();
+        NoficationDAO nd = new NoficationDAO();
         if (session.getAttribute("account") != null) {
             User user = (User) session.getAttribute("account");
+            List<Post> listPost = pd.getAllPosts(user.getUserId());
             List<FriendRequest> listRequest = fd.getAllFriendRequestById(user.getUserId());
             List<FriendRequest> listFriend = fd.getAllFriend(user.getUserId());
+            List<Nofication> listNofications = nd.getTopFiveNofication(user.getUserId());
             request.setAttribute("listPost", listPost);
             request.setAttribute("listRequest", listRequest);
             request.setAttribute("listFriends", listFriend);
+            request.setAttribute("listNofications", listNofications);
         }
         request.getRequestDispatcher("home.jsp").forward(request, response);
     }
